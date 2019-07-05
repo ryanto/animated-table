@@ -1,5 +1,136 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-<WelcomePage />
-{{!-- Feel free to remove this! --}}
+<AnimatedTools />
 
-{{outlet}}
+<div class="pt-24 w mx-auto w-1000px">
+  <div class="flex">
+    <button
+      onclick={{action "addSingle"}}
+      class="text-white rounded bg-blue py-2 px-3"
+    >
+      Add single item
+    </button>
+
+    <button
+      onclick={{action "toggleTimer"}}
+      class="ml-4 text-white rounded bg-{{if interval 'red' 'green'}} py-2 px-3"
+    >
+      {{if interval 'Stop timer' 'Add items every few seconds'}}
+    </button>
+
+    <div class="ml-auto">
+      Rows: {{rows.length}}
+    </div>
+  </div>
+
+
+  <div class="flex pt-6">
+
+    <div class="w-1/2 leading-tight pr-8 text-blue-dark">
+      <h3 class="mb-3">
+        Animated table
+      </h3>
+      <p class="mw-sm lh-tight mb-3">
+        As new rows are added the table cells jump around. I think this is due to
+        the absolute positioning taking the animated sprites out of the table's flow.
+      </p>
+
+      <p class="mw-sm lh-tight">
+        Also, when using an animated container the offsets seem off.
+      </p>
+    </div>
+
+    <div class="w-1/2 leading-tight pl-8 text-purple-dark">
+      <h3 class="mb-3">
+        Animated flexbox
+      </h3>
+      <p class="mw-sm lh-tight mb-3">
+        This one works! It's what I was expecting the table to do.
+      </p>
+    </div>
+  </div>
+
+  <div class="pt-6 flex">
+    <div class="w-1/2 pr-8 text-blue-dark">
+      <AnimatedContainer>
+        <table class="w-full">
+          <thead>
+            <tr>
+              <th class="text-left w-1/3">ID</th>
+              <th class="text-left w-1/3">Random 1</th>
+              <th class="text-left w-1/3">Random 2</th>
+            </tr>
+          </thead>
+          <tbody class="w-full">
+            {{#animated-each (take 10 (sort-by "id:desc" rows))
+              use=transition
+              duration=1500
+              as |row|
+            }}
+              <tr>
+                <td class="w-1/3">
+                  {{row.id}}
+                </td>
+                <td class="w-1/3">
+                  {{row.random1}}
+                </td>
+                <td class="w-1/3">
+                  {{row.random2}}
+                </td>
+              </tr>
+            {{/animated-each}}
+          </tbody>
+        </table>
+      </AnimatedContainer>
+    </div>
+
+    <div class="w-1/2 pl-8 text-purple-dark">
+      <div class="flex font-semibold">
+        <div class="w-1/3">
+          ID
+        </div>
+        <div class="w-1/3">
+          Random 1
+        </div>
+        <div class="w-1/3">
+          Random 2
+        </div>
+      </div>
+
+      <AnimatedContainer>
+        {{#animated-each (take 10 (sort-by "id:desc" rows))
+          use=transition
+          duration=1500
+          as |row|
+        }}
+          <div class="flex">
+            <div class="w-1/3">
+              {{row.id}}
+            </div>
+            <div class="w-1/3">
+              {{row.random1}}
+            </div>
+            <div class="w-1/3">
+              {{row.random1}}
+            </div>
+          </div>
+        {{/animated-each}}
+      </AnimatedContainer>
+    </div>
+  </div>
+
+  <div class="pt-6">
+
+    <h4 class="mb-3">
+      Content below the animations
+    </h4>
+    <p class="leading-tight">
+      For testing AnimatedContainer. Lorem ipsum dolor sit amet, consectetur
+      adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+      laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+      qui officia deserunt mollit anim id est laborum.
+    </p>
+  </div>
+
+</div>
